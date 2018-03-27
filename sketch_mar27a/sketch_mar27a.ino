@@ -2,6 +2,7 @@
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
 
+int pinLed = D6;
 const char* ssid = "iPhone de R. DELFOSSE";
 const char* password = "987654321";
 const char* mqtt_server = "m23.cloudmqtt.com";
@@ -57,16 +58,16 @@ void callback(char* topic, byte* payload, unsigned int length) {
   }
   const char* user = root["user"];
   double ledIsOn = root["ledIsOn"];
-
+ 
   // Print values
   Serial.println(user);
   Serial.println(ledIsOn);
 
   // Switch on the LED if ledIsOn equals 1
   if (ledIsOn == '1') {
-    digitalWrite(BUILTIN_LED, LOW);   // Turn the LED on (Note that LOW is the voltage level
+    digitalWrite(BUILTIN_LED, HIGH);   // Turn the LED on (Note that LOW is the voltage level
   } else {
-    digitalWrite(BUILTIN_LED, HIGH);  // Turn the LED off by making the voltage HIGH
+    digitalWrite(BUILTIN_LED, LOW);  // Turn the LED off by making the voltage HIGH
   }
 
 }
