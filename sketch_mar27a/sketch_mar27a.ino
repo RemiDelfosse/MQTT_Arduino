@@ -1,6 +1,7 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
+#include <String.h>
 
 int pinLed = D6;
 const char* ssid = "iPhone de R. DELFOSSE";
@@ -40,31 +41,35 @@ void setup() {
 
 void callback(char* topic, byte* payload, unsigned int length) {
   StaticJsonBuffer<200> jsonBuffer;
-
+  String ttt = "";
+  String res = "";
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
   for (int i = 0; i < length; i++) {
-    Serial.print((char)payload[i]);
+    ttt = String((char)payload[i]);
+    res = String(res + ttt);
+    
   }
+  Serial.print(res);
   Serial.println();
 
   // Parsing JSON
-  JsonObject& root = jsonBuffer.parseObject(topic);
+  JsonObject& root = jsonBuffer.parseObject(res);
   // Test if parsing succeeds
   if (!root.success()) {
     Serial.println("parseObject() failed");
     return;
   }
   const char* user = root["user"];
-  double ledIsOn = root["ledIsOn"];
+  String ledIsOn = root["ledIsOn"];
  
   // Print values
   Serial.println(user);
   Serial.println(ledIsOn);
 
   // Switch on the LED if ledIsOn equals 1
-  if (ledIsOn == '1') {
+  if (ledIsOn=="1") {
     digitalWrite(BUILTIN_LED, HIGH);   // Turn the LED on (Note that LOW is the voltage level
   } else {
     digitalWrite(BUILTIN_LED, LOW);  // Turn the LED off by making the voltage HIGH
