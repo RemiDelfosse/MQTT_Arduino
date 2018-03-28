@@ -69,7 +69,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.println(ledIsOn);
 
   // Switch on the LED if ledIsOn equals 1
-  if ((char)ledIsOn == '1') {
+  if (ledIsOn == (String)'1') {
     digitalWrite(BUILTIN_LED, HIGH);   // Turn the LED on (Note that LOW is the voltage level
   } else {
     digitalWrite(BUILTIN_LED, LOW);  // Turn the LED off by making the voltage HIGH
